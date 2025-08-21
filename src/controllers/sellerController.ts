@@ -17,7 +17,6 @@ export const registerSeller = async (req: Request, res: Response) => {
         if (!validator.isEmail(email)) return res.status(400).json({ error: 'Invalid email format.' });
 
         if (password.length < 6) return res.status(400).json({ error: 'Password must be at least 6 characters long.' });
-        
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -34,7 +33,6 @@ export const registerSeller = async (req: Request, res: Response) => {
             message: 'Seller account created successfully.',
             seller: data,
         });
-        
     } catch (err: any) {
         if (err.code === 'P2002') {
             return res.status(400).json({ error: 'Email already exists.' });

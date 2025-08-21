@@ -24,6 +24,7 @@ model Product {
   price Float
   description String?
   stock Int
+  imageUrl String?
   keys String[]
   createdAt DateTime @default(now())
 
