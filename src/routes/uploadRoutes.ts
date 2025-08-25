@@ -1,9 +1,10 @@
 import express from 'express';
-import { uploadImage } from '../controllers/uploadController.js';
+import { UploadController } from '../controllers/uploadController.js';
 import upload from '../middlewares/multer.js';
 
 const router = express.Router();
+const uploadController = new UploadController();
 
-router.post('/upload', upload.single('image'), uploadImage);
+router.post('/upload', upload.single('image'), uploadController.upload.bind(uploadController));
 
 export default router;

@@ -1,26 +1,22 @@
 import type { Request, Response } from "express";
-import cloudinary from "../config/cloudinaryConfig.js";
+import { UploadServices } from "../services/UploadServices.js";
 
-export const uploadImage = async (req: Request, res: Response) => {
-  try {
-    
-    if (!req.file) {
-      return res.status(400).json({ message: 'No image was sent.' });
-    }
+export class UploadController {
+  private uploadServices: UploadServices;
 
-    const base64 = req.file.buffer.toString('base64');
-    const dataUri = `data:${req.file.mimetype};base64,${base64}`;
-    
-    const upload = await cloudinary.uploader.upload(dataUri, {
-      folder: 'fond_uploads',
-    });
-
-    return res.json({
-      message: "Upload completed successfully!",
-      url: upload.secure_url,
-    });
-    
-  } catch (err) {
-    res.status(500).json({ message: 'Intern error', error: err instanceof Error ? err.message : 'Unknown error' });
+  constructor() {
+    this.uploadServices = new UploadServices();
   }
-};
+
+  async upload(req: Request, res: Response): Promise<Response> {
+    try {
+      if(!req.file) return res.status(400).json({ error: "No file uploaded" });
+
+      const url = await this.uploadServices.handleUpload(req.file!);
+
+      return res.status(200).json({ message: "Image uploaded successfully", image_url: url });
+    } catch (error) {
+      return res.status(500).json({ error: (error as Error).message });
+    }
+  }
+}

@@ -1,10 +1,13 @@
 import express from 'express';
-import { createProduct } from '../controllers/productController.js';
-import { searchProducts } from '../controllers/searchProducts.js';
+import { ProductController } from '../controllers/productController.js';
+import { SearchController } from '../controllers/searchController.js';
 
 const router = express.Router();
 
-router.post('/create', createProduct);
-router.get('/search', searchProducts);
+const searchController = new SearchController();
+const productController = new ProductController();
+
+router.post('/create', productController.createProduct.bind(productController));
+router.get('/search', searchController.search.bind(searchController));
 
 export default router;

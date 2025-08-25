@@ -1,33 +1,26 @@
 import type { Request, Response } from 'express';
-import { PrismaClient } from '../generated/prisma/index.js';
+import { ProductServices } from '../services/ProductServices.js';
 
-const prisma = new PrismaClient();
+export class ProductController {
+    private productServices: ProductServices;
 
-export const createProduct = async (req: Request, res: Response) => {
-    try {
-        const { sellerId, stock, name, description, price, keys } = req.body;
-    
-        if(!sellerId || !stock || !name || !description || !price || !keys) return res.status(400).json({ error: 'All fields are required.' });
-    
-        const newProduct = await prisma.product.create({
-            data: {
-                name: name,
-                price: price,
-                stock: stock,
-                seller: { connect: { id: sellerId } },
-                description: description,
-                keys: keys,
-            }
-        })
-
-        return res.status(201).json({
-            message: 'Product created successfully.',
-            product: newProduct
-        });
-    } catch(err) {
-        return res.status(500).json({
-            error: err
-        });
+    constructor() {
+        this.productServices = new ProductServices();
     }
 
-};
+    async createProduct(req: Request, res: Response): Promise<Response> {
+        try {
+            const { sellerId, name, description, stock, keys, price } = req.body;
+
+            if (!sellerId || !name || !description || !price || !stock || !keys) {
+                return res.status(400).json({ error: 'All fields are required.' });
+            }
+
+            const result = await this.productServices.createProduct({ sellerId, name, description, stock, keys, price });
+            
+            return res.status(201).json(result);
+        } catch (error) {
+            return res.status(400).json({ error: (error as Error).message });
+        }
+    }
+}
