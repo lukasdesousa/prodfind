@@ -2,10 +2,11 @@
   "name": "fond-backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --loader ts-node/esm src/server.ts --trace-warnings --trace-deprecation"
+    "dev": "node --loader ts-node/esm src/server.ts --trace-warnings --trace-deprecation",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
