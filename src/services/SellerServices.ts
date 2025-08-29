@@ -11,7 +11,7 @@ export class SellerServices {
 
         const hashedPassword = await bcrypt.hash(data.password, 10);
 
-        const seller = await prisma.seller.create({
+        await prisma.seller.create({
             data: {
                 storeName: data.storeName,
                 email: data.email,

@@ -25,6 +25,8 @@ model Product {
   description String?
   stock Int
   imageUrl String?
+  latitude Float?
+  longitude Float?
   keys String[]
   createdAt DateTime @default(now())
 

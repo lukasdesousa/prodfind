@@ -11,7 +11,8 @@ export class ProductController {
     async createProduct(req: Request, res: Response): Promise<Response> {
         try {
             const { sellerId, name, description, stock, keys, price } = req.body;
-
+            
+            // VALIDAÇÃO SIMPLES, PARA TESTES
             if (!sellerId || !name || !description || !price || !stock || !keys) {
                 return res.status(400).json({ error: 'All fields are required.' });
             }
