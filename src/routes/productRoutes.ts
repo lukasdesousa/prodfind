@@ -1,6 +1,6 @@
 import express from 'express';
-import { ProductController } from '../controllers/ProductController.js';
-import { SearchController } from '../controllers/SearchController.js';
+import { ProductController } from '../controllers/Product.controller.js';
+import { SearchController } from '../controllers/Search.controller.js';
 
 const router = express.Router();
 
