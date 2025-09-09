@@ -24,7 +24,7 @@ export class ProductServices {
     }
 
      async searchProducts(data: { name: string; latitude?: number; longitude: number, radium_km: number }): Promise<any> {
-        if (!data.name || !data.latitude || data.longitude) throw new Error('No data provided');
+        if (!data.name || !data.latitude || !data.longitude) throw new Error('No data provided');
 
         const radium_km = data.radium_km * 1000
 

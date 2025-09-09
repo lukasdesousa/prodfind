@@ -24,7 +24,7 @@ export class ProductController {
 
     async searchProduct(data: SearchProducts) {
         try {
-            const { name, latitude, longitude, radium_km } = await data;
+            const { name, latitude, longitude, radium_km } = data;
 
             if (!name || !latitude || !longitude) {
                 throw new Error("Name, altitude and longitude are required!");

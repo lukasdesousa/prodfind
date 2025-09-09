@@ -2,7 +2,6 @@
   "name": "fond-backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "dist/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "vercel dev",
@@ -17,7 +16,6 @@
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.7.0",
     "dotenv": "^17.2.1",
-    "express": "^5.1.0",
     "streamifier": "^0.1.1",
     "validator": "^13.15.15",
     "vercel": "^46.1.1"
