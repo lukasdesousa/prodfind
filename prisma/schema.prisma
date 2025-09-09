@@ -12,7 +12,8 @@ model Seller {
   storeName String
   email    String @unique
   password String
-  location String
+  latitude Float?
+  longitude Float?
   createdAt DateTime @default(now())
   products Product[]
 }
