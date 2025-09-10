@@ -50,19 +50,21 @@ export class ProductServices {
     async get_all(data: { latitude: number, longitude: number, radium_km: number }) {
         if (!data.latitude || !data.longitude || !data.radium_km) throw new Error("Undefined latitude and longitude")
 
+        const radium_m = data.radium_km * 1000;
+
         const products = await prisma.$queryRaw`
-                SELECT *,
-                    ST_Distance(
-                    ST_SetSRID(ST_MakePoint(longitude, latitude), 4326),
-                    ST_SetSRID(ST_MakePoint(${data.longitude}, ${data.latitude}), 4326)
-                    ) AS distance
-                FROM "Product"
-                WHERE ST_DWithin(
-                    ST_SetSRID(ST_MakePoint(longitude, latitude), 4326),
-                    ST_SetSRID(ST_MakePoint(${data.longitude}, ${data.latitude}), 4326),
-                    ${data.radium_km * 1000}  -- raio em metros
-                )
-                ORDER BY distance ASC;
+        SELECT *,
+            ST_Distance(
+            ST_SetSRID(ST_MakePoint(longitude::double precision, latitude::double precision), 4326),
+            ST_SetSRID(ST_MakePoint(${data.longitude}::double precision, ${data.latitude}::double precision), 4326)
+            ) AS distance
+        FROM "Product"
+        WHERE ST_DWithin(
+            ST_SetSRID(ST_MakePoint(longitude::double precision, latitude::double precision), 4326),
+            ST_SetSRID(ST_MakePoint(${data.longitude}::double precision, ${data.latitude}::double precision), 4326),
+            ${radium_m}  -- raio em metros
+        )
+        ORDER BY distance ASC;
         `;
 
         return { message: 'We found these products', products };
