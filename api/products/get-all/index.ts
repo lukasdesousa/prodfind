@@ -9,18 +9,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(405).json({ error: "Method not allowed" });
     }
 
-    const { name, latitude, longitude, radium_km } = req.body;
+    const { latitude, longitude, radium_km } = req.body;
 
-    if (!name || !latitude || !longitude) {
-      return res.status(400).json({ error: "Name, latitude, and longitude are required" });
+    if (!latitude || !longitude || !radium_km) {
+      return res.status(400).json({ error: "longitude, latitude, and longitude are required" });
     }
 
-    const result = await productController.searchProduct({
-      name: String(name),
-      latitude: Number(latitude),
-      longitude: Number(longitude),
-      radium_km: radium_km ? Number(radium_km) : 5,
-    });
+    const result = await productController.get_all({
+        latitude: latitude,
+        longitude: longitude,
+        radium_km: radium_km,
+    })
 
     return res.status(200).json(result);
   } catch (err: any) {

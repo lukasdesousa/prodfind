@@ -15,3 +15,9 @@ export type CreateProduct = {
     keys: string[];
     price: number;
 }
+
+export type GetAll = {
+    latitude: number;
+    longitude: number;
+    radium_km: number;
+}
