@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { ProductController } from "../../controllers/Product.controller.js";
+import { ProductController } from "../../../controllers/Product.controller.js";
 
 const productController = new ProductController();
 
