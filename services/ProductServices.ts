@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { connect } from "http2";
 
 const prisma = new PrismaClient();
 
@@ -17,8 +18,12 @@ export class ProductServices {
                 longitude: data.longitude,
                 description: data.description,
                 keys: data.keys,
-            }
-        })
+            }, include: {
+                seller: {
+                    select: { id: true, storeName: true },
+                },
+            },
+        });
 
         return { message: 'Product created successfully', newProduct };
     }
