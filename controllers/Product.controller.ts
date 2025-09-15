@@ -12,7 +12,7 @@ export class ProductController {
         try {
             const { seller_id, name, description, stock, keys, price, latitude, longitude } = data;
 
-            if (!seller_id || !name || !description || !price || !stock || !keys) {
+            if (data) {
                 throw new Error("All fields are required!");
             }
 
@@ -49,7 +49,7 @@ export class ProductController {
                 longitude: longitude,
                 radium_km: radium_km
             })
-        } catch(error) {
+        } catch (error) {
             throw new Error((error as Error).message)
         }
     }

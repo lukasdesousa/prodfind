@@ -1,12 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import { connect } from "http2";
 
 const prisma = new PrismaClient();
 
 export class ProductServices {
     async createProduct(data: { seller_id: string, name: string, description: string, stock: number; keys: string[]; price: number, latitude: number, longitude: number }): Promise<any> {
 
-        if (!data.seller_id || !data.name || !data.description || !data.price) throw new Error('No data provided');
+        if (!data) throw new Error('No data provided');
 
         const newProduct = await prisma.product.create({
             data: {
@@ -19,17 +18,15 @@ export class ProductServices {
                 description: data.description,
                 keys: data.keys,
             }, include: {
-                seller: {
-                    select: { id: true, storeName: true },
-                },
-            },
-        });
+                seller: { select: { id: true, storeName: true } }
+            }
+        })
 
         return { message: 'Product created successfully', newProduct };
     }
 
     async searchProducts(data: { name: string; latitude?: number; longitude: number, radium_km: number }): Promise<any> {
-        if (!data.name || !data.latitude || !data.longitude) throw new Error('No data provided');
+        if (!data) throw new Error('No data provided');
 
         const radium_km = data.radium_km * 1000
 
@@ -57,21 +54,25 @@ export class ProductServices {
 
         const radium_m = data.radium_km * 1000;
 
-        const products = await prisma.$queryRaw`
-        SELECT *,
-            ST_Distance(
-            ST_SetSRID(ST_MakePoint(longitude::double precision, latitude::double precision), 4326),
-            ST_SetSRID(ST_MakePoint(${data.longitude}::double precision, ${data.latitude}::double precision), 4326)
-            ) AS distance
-        FROM "Product"
-        WHERE ST_DWithin(
-            ST_SetSRID(ST_MakePoint(longitude::double precision, latitude::double precision), 4326),
-            ST_SetSRID(ST_MakePoint(${data.longitude}::double precision, ${data.latitude}::double precision), 4326),
-            ${radium_m}  -- raio em metros
-        )
-        ORDER BY distance ASC;
-        `;
+     const products = await prisma.$queryRaw`
+    SELECT p.*,
+           s.id AS sellerId,
+           s."storeName" AS seller_storeName,
+           ST_Distance(
+               ST_SetSRID(ST_MakePoint(p.longitude, p.latitude), 4326)::geography,
+               ST_SetSRID(ST_MakePoint(${data.longitude}, ${data.latitude}), 4326)::geography
+           ) AS distance
+    FROM "Product" p
+    JOIN "Seller" s
+      ON p."sellerId" = s.id
+    WHERE ST_DWithin(
+        ST_SetSRID(ST_MakePoint(p.longitude, p.latitude), 4326)::geography,
+        ST_SetSRID(ST_MakePoint(${data.longitude}, ${data.latitude}), 4326)::geography,
+        ${radium_m}  -- raio em metros
+    )
+    ORDER BY distance ASC;
+`;
 
-        return { message: 'We found these products', products };
+        return { message: 'We found these products nearby', products };
     }
 }
