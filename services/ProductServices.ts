@@ -22,7 +22,7 @@ export class ProductServices {
             }
         })
 
-        return { message: 'Product created successfully', newProduct };
+        return { message: 'Product created successfully!', newProduct };
     }
 
     async searchProducts(data: { name: string; latitude?: number; longitude: number, radium_km: number }): Promise<any> {
