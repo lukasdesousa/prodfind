@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { SellerController } from "../../controllers/Seller.controller.js"
+import { UserController } from "../../../controllers/User.controller.js"
 
-const sellerController = new SellerController();
+const userController = new UserController();
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -11,7 +11,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const { name, email, password } = req.body;
 
-    const result = await sellerController.createSeller({
+    const result = await userController.createUser({
       name: name,
       email: email,
       password: password
