@@ -21,4 +21,19 @@ export class UserController {
            throw new Error(`Error: ${(err as Error).message}`)
         }
     }
+
+    async loginUser(data: UserType) {
+        try {
+            const { email, password } = data;
+
+             if (!email || !password) {
+                throw new Error("All fields are required!")
+            }
+
+            return this.userServices.loginUser({ email, password });
+
+        } catch(error) {
+
+        }
+    }
 }
