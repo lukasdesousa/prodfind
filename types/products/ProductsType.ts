@@ -13,6 +13,7 @@ export type CreateProduct = {
     longitude: number;
     stock: number;
     keys: string[];
+    imagesUrl: string[];
     price: number;
 }
 

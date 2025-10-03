@@ -24,7 +24,8 @@ model Product {
   price Float
   description String?
   stock Int
-  imageUrl String?
+  imagesUrl String[]
+  preferences Int?
   latitude Float?
   longitude Float?
   keys String[]
