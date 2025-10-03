@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export class ProductServices {
-    async createProduct(data: { seller_id: string, name: string, description: string, stock: number; keys: string[]; price: number, latitude: number, longitude: number }): Promise<any> {
+    async createProduct(data: { seller_id: string, name: string, description: string, stock: number; price: number, latitude: number, longitude: number }): Promise<any> {
 
         if (!data) throw new Error('No data provided');
 
@@ -16,7 +16,6 @@ export class ProductServices {
                 latitude: data.latitude,
                 longitude: data.longitude,
                 description: data.description,
-                keys: data.keys,
             }, include: {
                 seller: { select: { id: true, storeName: true } }
             }

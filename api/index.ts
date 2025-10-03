@@ -7,7 +7,6 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     endpoints: [
       "/api/products",
       "/api/sellers",
-      "/api/upload"
     ]
   });
 }

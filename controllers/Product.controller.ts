@@ -1,4 +1,4 @@
-import { ProductServices } from '../services/ProductServices.js';
+import { ProductServices } from '../services/Product.service.js';
 import type { CreateProduct, GetAll, SearchProducts } from '../types/products/ProductsType.js';
 
 export class ProductController {
