@@ -7,6 +7,8 @@ export class ProductServices {
 
         if (!data) throw new Error('No data provided');
 
+        console.log('Data recebida: ', data)
+
         const newProduct = await prisma.product.create({
             data: {
                 name: data.name,

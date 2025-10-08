@@ -12,16 +12,39 @@ export class ProductController {
         try {
             const { seller_id, name, description, stock, price, latitude, longitude, imagesUrl, preferences } = data;
 
-            if (data) {
-                throw new Error("All fields are required!");
+            if (
+                !seller_id ||
+                !name ||
+                !description ||
+                stock == null ||
+                price == null ||
+                latitude == null ||
+                longitude == null ||
+                !Array.isArray(imagesUrl) ||
+                preferences == null
+            ) {
+                throw new Error("Todos os campos obrigatórios devem ser preenchidos.");
             }
 
-            return this.productServices.createProduct({ seller_id, name, description, stock, price, latitude, longitude, imagesUrl, preferences });
-        } catch (error) {
-            throw new Error(`${(error as Error).message}`);
+            const newProduct = await this.productServices.createProduct({
+                seller_id,
+                name,
+                description,
+                stock,
+                price,
+                latitude,
+                longitude,
+                imagesUrl,
+                preferences,
+            });
+
+            return newProduct;
+        } catch (error: any) {
+            // Log útil para debug
+            console.error("Erro ao criar produto:", error);
+            throw new Error(error.message || "Erro inesperado ao criar produto.");
         }
     }
-
     async searchProduct(data: SearchProducts) {
         try {
             const { name, latitude, longitude, radium_km } = data;
