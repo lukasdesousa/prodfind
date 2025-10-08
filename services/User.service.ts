@@ -6,21 +6,25 @@ import jwt from 'jsonwebtoken';
 const prisma = new PrismaClient();
 
 export class UserServices {
-    async createUser(data: { name: string; email: string; password: string; }): Promise<any> {
+    async createUser(data: { name: string; email: string; password: string; latitude: number; longitude: number; }): Promise<any> {
         if (!data.name || !data.email || !data.password) throw new Error('No data provided');
         if (!validator.isEmail(data.email)) throw new Error('Invalid email format');
 
         const hashedPassword = await bcrypt.hash(data.password, 10);
 
-        await prisma.seller.create({
+        const newUser = await prisma.seller.create({
             data: {
                 storeName: data.name,
                 email: data.email,
                 password: hashedPassword,
+                latitude: data.latitude,
+                longitude: data.longitude,
             }
         })
 
-        return { message: 'Seller account created successfully.' };
+        const token = jwt.sign({ id: newUser.id, email: newUser.email, name: newUser.storeName}, process.env.JWT_SECRET!, { expiresIn: "48h" });
+
+        return { message: 'Seller account created successfully.', token: token };
     }
 
     async loginUser(data: { email: string, password: string; }): Promise<any> {

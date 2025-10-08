@@ -10,13 +10,13 @@ export class ProductController {
 
     async createProduct(data: CreateProduct) {
         try {
-            const { seller_id, name, description, stock, keys, price, latitude, longitude } = data;
+            const { seller_id, name, description, stock, price, latitude, longitude, imagesUrl, preferences } = data;
 
             if (data) {
                 throw new Error("All fields are required!");
             }
 
-            return this.productServices.createProduct({ seller_id, name, description, stock, keys, price, latitude, longitude });
+            return this.productServices.createProduct({ seller_id, name, description, stock, price, latitude, longitude, imagesUrl, preferences });
         } catch (error) {
             throw new Error(`${(error as Error).message}`);
         }

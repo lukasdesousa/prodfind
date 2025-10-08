@@ -9,12 +9,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(405).json({ error: "Method not allowed" });
     }
 
-    const { name, email, password } = req.body;
+    const { name, email, password, latitude, longitude } = req.body;
 
     const result = await userController.createUser({
       name: name,
       email: email,
-      password: password
+      password: password,
+      latitude: latitude,
+      longitude: longitude,
     });
     
     return res.status(201).json(result);

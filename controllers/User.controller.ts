@@ -10,15 +10,15 @@ export class UserController {
 
     async createUser(data: UserType) {
         try {
-            const { name, email, password } = data;
+            const { name, email, password, latitude, longitude } = data;
 
             if (!name || !email || !password) {
                 throw new Error("All fields are required!")
             }
 
-            return this.userServices.createUser({ name, email, password });
+            return this.userServices.createUser({ name, email, password, latitude: latitude!, longitude: longitude! });
         } catch (err) {
-           throw new Error(`Error: ${(err as Error).message}`)
+            throw new Error(`Error: ${(err as Error).message}`)
         }
     }
 
@@ -26,13 +26,13 @@ export class UserController {
         try {
             const { email, password } = data;
 
-             if (!email || !password) {
+            if (!email || !password) {
                 throw new Error("All fields are required!")
             }
 
             return this.userServices.loginUser({ email, password });
 
-        } catch(error) {
+        } catch (error) {
 
         }
     }

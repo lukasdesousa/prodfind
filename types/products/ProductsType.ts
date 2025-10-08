@@ -12,9 +12,9 @@ export type CreateProduct = {
     latitude: number;
     longitude: number;
     stock: number;
-    keys: string[];
     imagesUrl: string[];
     price: number;
+    preferences: number;
 }
 
 export type GetAll = {
