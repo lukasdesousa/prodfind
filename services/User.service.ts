@@ -38,6 +38,7 @@ export class UserServices {
                 storeName: true,
                 email: true,
                 password: true,
+                products: true,
             }
         });
 
@@ -49,7 +50,7 @@ export class UserServices {
         const token = jwt.sign({ id: user.id, email: data.email, name: user.storeName}, process.env.JWT_SECRET!, { expiresIn: "48h" });
 
         const { id, email, storeName } = user;
-        const user_data = { id, email, name: storeName, token: token }
+        const user_data = { id, email, name: storeName, token: token, user_products: user.products };
 
         return { success: true, data: user_data };
     }
