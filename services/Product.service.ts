@@ -57,7 +57,7 @@ export class ProductServices {
 
         const radium_m = data.radium_km * 1000;
 
-     const products = await prisma.$queryRaw`
+        const products = await prisma.$queryRaw`
     SELECT p.*,
            s.id AS sellerId,
            s."storeName" AS seller_storeName,

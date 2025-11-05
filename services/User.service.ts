@@ -24,7 +24,7 @@ export class UserServices {
 
         const token = jwt.sign({ id: newUser.id, email: newUser.email, name: newUser.storeName}, process.env.JWT_SECRET!, { expiresIn: "48h" });
 
-        return { message: 'Seller account created successfully.', token: token };
+        return { message: 'Seller account created successfully.', token: token, user: newUser };
     }
 
     async loginUser(data: { email: string, password: string; }): Promise<any> {
