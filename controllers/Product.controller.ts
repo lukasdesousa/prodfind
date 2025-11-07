@@ -76,4 +76,17 @@ export class ProductController {
             throw new Error((error as Error).message)
         }
     }
+
+    async getOne(data: { product_id: number }) {
+        try {
+            const { product_id } = data;
+
+            if(!product_id) throw new Error("Product ID is required!");
+
+            return this.productServices.getOne({product_id});
+
+        } catch(error) {
+            throw new Error((error as Error).message)
+        }
+    }
 }

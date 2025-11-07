@@ -78,4 +78,21 @@ export class ProductServices {
 
         return { message: 'We found these products nearby', products };
     }
+
+    async getOne(data: { product_id: number }): Promise<any> {
+        if(!data.product_id) throw new Error('Id is required');
+
+        const product = await prisma.product.findUnique({
+            where: { id: data.product_id },
+            include: {
+                seller: { select: { id: true, storeName: true, email: true, latitude: true, longitude: true } }
+            }
+        })
+
+        if (product) {
+            return { message: 'We found this', product };
+        } else {
+            throw new Error('Product not found');
+        }
+    }
 }
