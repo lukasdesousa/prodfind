@@ -60,7 +60,7 @@ export class ProductServices {
         const products = await prisma.$queryRaw`
     SELECT p.*,
            s.id AS sellerId,
-           s."storeName" AS seller_storeName,
+           s."storeName" AS storeName,
            ST_Distance(
                ST_SetSRID(ST_MakePoint(p.longitude, p.latitude), 4326)::geography,
                ST_SetSRID(ST_MakePoint(${data.longitude}, ${data.latitude}), 4326)::geography
